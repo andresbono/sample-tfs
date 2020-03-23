@@ -7,5 +7,5 @@ provider "ibm" {
 }
 
 module "vpc" {
-  source = "../modules/dummy"
+  source = "modules/dummy"
 }
