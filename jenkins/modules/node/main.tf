@@ -21,9 +21,9 @@ resource "ibm_is_instance" "instance" {
   zone = "${var.zone}"
   keys = ["${data.ibm_is_ssh_key.ssh_key.id}"]
 
-  volumes = ["${ibm_is_volume.volume[count.index].id}"]
+  volumes = ["${ibm_is_volume.volume.*.id[count.index]}"]
 
-  user_data = "${data.template_cloudinit_config.userdata_instance[count.index].rendered}"
+  user_data = "${data.template_cloudinit_config.userdata_instance.*.rendered[count.index]}"
 }
 
 resource "ibm_is_volume" "volume" {
@@ -48,7 +48,7 @@ data "template_cloudinit_config" "userdata_instance" {
 
   part {
     content_type = "text/x-shellscript"
-    content      = "${data.template_file.userdata_script_instance[count.index].rendered}"
+    content      = "${data.template_file.userdata_script_instance.*.rendered[count.index]}"
   }
 }
 
@@ -73,5 +73,5 @@ data "template_file" "userdata_script_instance" {
 resource "ibm_is_floating_ip" "public_ip" {
   count = "${var.set_public_ips ? var.nodes_count : 0}"
   name   = "${var.deployment_short_name}-public-ip-${var.tier}${count.index}"
-  target = "${ibm_is_instance.instance[count.index].primary_network_interface.0.id}"
+  target = "${ibm_is_instance.instance.*.primary_network_interface.0.id[count.index]}"
 }
