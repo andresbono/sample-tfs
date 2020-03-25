@@ -1,9 +1,9 @@
 locals {
   # Bootstrap script to be executed at init time
-  bootstrap_file = "${path.module}/userdata/bootstrap.sh"
+  bootstrap_file = "userdata/bootstrap.sh"
 
   # cloud-init configuration file
-  cloud_init_config_file = "${path.module}/userdata/init.cfg"
+  cloud_init_config_file = "userdata/init.cfg"
 }
 
 variable "bundle_tgz_uri" {
