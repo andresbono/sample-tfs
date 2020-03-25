@@ -8,13 +8,13 @@ output "ApplicationPassword" {
 }
 
 output "PrivateIps" {
-  value = "${flatten([module.master.*.ips, module.slave.*.ips])}"
+  value = "${flatten(list(module.master.*.ips, module.slave.*.ips))}"
 }
 
 output "InstanceNames" {
-  value = "${flatten([module.master.*.names, module.slave.*.names])}"
+  value = "${flatten(list(module.master.*.names, module.slave.*.names))}"
 }
 
 output "PublicIps" {
-  value = "${flatten([module.master.*.public_ips, module.slave.*.public_ips])}"
+  value = "${flatten(list(module.master.*.public_ips, module.slave.*.public_ips))}"
 }
